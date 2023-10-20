@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GeneticAlgorithmController;
+use App\Http\Middleware\CheckCustomAuthKey;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,22 +14,23 @@ use App\Http\Controllers\GeneticAlgorithmController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::middleware([CheckCustomAuthKey::class])->group(function () {
 
-Route::prefix('genetic-algorithm')->group(function () {
+    Route::prefix('genetic-algorithm')->group(function () {
 
-    Route::get('/random-float/generate', [GeneticAlgorithmController::class, 'generateRandomFloat']);
+        Route::get('/random-float/generate', [GeneticAlgorithmController::class, 'generateRandomFloat']);
 
-    Route::get('/decimal-places/count', [GeneticAlgorithmController::class, 'countDecimalPlaces']);
-    Route::get('/l/count', [GeneticAlgorithmController::class, 'countL']);
-    Route::get('/function-value/count', [GeneticAlgorithmController::class, 'countFunctionValue']);
+        Route::get('/decimal-places/count', [GeneticAlgorithmController::class, 'countDecimalPlaces']);
+        Route::get('/l/count', [GeneticAlgorithmController::class, 'countL']);
+        Route::get('/function-value/count', [GeneticAlgorithmController::class, 'countFunctionValue']);
 
-    Route::prefix('convert')->group(function () {
-        Route::get('/real-to-int', [GeneticAlgorithmController::class, 'realToInt']);
-        Route::get('/int-to-bin', [GeneticAlgorithmController::class, 'intToBin']);
-        Route::get('/bin-to-int', [GeneticAlgorithmController::class, 'binToInt']);
-        Route::get('/int-to-real', [GeneticAlgorithmController::class, 'intToReal']);
+        Route::prefix('convert')->group(function () {
+            Route::get('/real-to-int', [GeneticAlgorithmController::class, 'realToInt']);
+            Route::get('/int-to-bin', [GeneticAlgorithmController::class, 'intToBin']);
+            Route::get('/bin-to-int', [GeneticAlgorithmController::class, 'binToInt']);
+            Route::get('/int-to-real', [GeneticAlgorithmController::class, 'intToReal']);
+        });
+
+        Route::get('/all-conversions-table', [GeneticAlgorithmController::class, 'allConversionsTable']);
     });
-
-    Route::get('/all-conversions-table', [GeneticAlgorithmController::class, 'allConversionsTable']);
 });
-
