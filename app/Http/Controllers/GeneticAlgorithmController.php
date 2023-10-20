@@ -177,7 +177,7 @@ class GeneticAlgorithmController extends Controller
             $fourthX = $this->convertBinToInt($thirdX);
             $fifthX = $this->calculateIntToReal($fourthX, $a, $b, $l, $decimalPlaces);
             $functionX = $this->functionValue($fifthX);
-            $resultArray[] = [$i, $this->strictDecimalPlaces($firstX), $secondX, $thirdX, $fourthX, $this->strictDecimalPlaces($fifthX), $functionX];
+            $resultArray[] = [$i, $this->strictDecimalPlaces($firstX, $decimalPlaces), $secondX, $thirdX, $fourthX, $this->strictDecimalPlaces($fifthX, $decimalPlaces), $functionX];
         }
 
         return $resultArray;
