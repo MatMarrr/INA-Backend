@@ -7,6 +7,37 @@ use Illuminate\Http\Request;
 
 class GeneticAlgorithmController extends Controller
 {
+    public function generateRandomFloat(Request $request): JsonResponse
+    {
+        $a = (int)$request->get('a');
+        $b = (int)$request->get('b');
+        $decimalPlaces = (int)$request->get('decimalPlaces');
+
+        return response()->json([
+            'randomFloat' => $this->generateRandomNumber($a, $b, $decimalPlaces)
+        ]);
+    }
+
+    public function countL(Request $request): JsonResponse
+    {
+        $a = (int)$request->get('a');
+        $b = (int)$request->get('b');
+        $d = (float)$request->get('d');
+
+        return response()->json([
+            'l' => $this->getL($a, $b, $d)
+        ]);
+    }
+
+    public function countFunctionValue(Request $request): JsonResponse
+    {
+        $realNumber = (float)$request->get('realNumber');
+
+        return response()->json([
+            'functionValue' => $this->functionValue($realNumber)
+        ]);
+    }
+
     public function countDecimalPlaces(Request $request): JsonResponse
     {
         return response()->json([
