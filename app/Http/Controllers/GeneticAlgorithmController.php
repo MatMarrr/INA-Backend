@@ -56,6 +56,26 @@ class GeneticAlgorithmController extends Controller
         ]);
     }
 
+    public function allConversionsTable(Request $request): JsonResponse
+    {
+        $a = (int)$request->get('a');
+        $b = (int)$request->get('b');
+        $d = (float)$request->get('d');
+        $n = (int)$request->get('n');
+
+        return response()->json([
+           'conversionsTable' => $this->getAllConversionsTable($a, $b, $d, $n)
+        ]);
+    }
+    private function functionValue(float $realNumber): float
+    {
+        $fractionalPart = (float)($realNumber - intval($realNumber));
+        $cosPart = cos(20 * pi() * $realNumber);
+        $sinPart = sin($realNumber);
+
+        return $fractionalPart * ($cosPart - $sinPart);
+    }
+
     private function calculateDecimalPlaces(float $d): int
     {
         $decimalAsString = (string) $d;
@@ -66,6 +86,17 @@ class GeneticAlgorithmController extends Controller
             "0.0001" => 4,
             default => 0,
         };
+    }
+
+    private function generateRandomNumber(int $a, int $b, int $decimalPlaces): float
+    {
+        $randomFloat = $a + lcg_value() * ($b - $a);
+        return round($randomFloat, $decimalPlaces);
+    }
+
+    private function getL(int $a, int $b, float $d): int
+    {
+        return (int) ceil(log((($b - $a) / $d) + 1, 2));
     }
 
     private function calculateRealToInt(float $realNumber, int $a, int $b, int $l): int
@@ -87,4 +118,25 @@ class GeneticAlgorithmController extends Controller
     {
         return round(((float)$intNumber * (float)($b - $a)) / (pow(2, $l) - 1) + $a, $decimalPlaces);
     }
+
+    private function getAllConversionsTable(int $a, int $b, float $d, int $n): array
+    {
+        $resultArray = array();
+
+        $l = $this->getL($a, $b, $d);
+        $decimalPlaces = $this->calculateDecimalPlaces($d);
+
+        for ($i = 1; $i <= $n; $i++) {
+            $firstX = $this->generateRandomNumber($a, $b, $decimalPlaces);
+            $secondX = $this->calculateRealToInt($firstX, $a, $b, $l);
+            $thirdX = $this->convertIntToBinary($secondX, $l); // Corrected the syntax error here
+            $fourthX = $this->convertBinToInt($thirdX);
+            $fifthX = $this->calculateIntToReal($fourthX, $a, $b, $l, $decimalPlaces);
+            $functionX = $this->functionValue($fifthX);
+            $resultArray[] = [$i, $firstX, $secondX, $thirdX, $fourthX, $fifthX, $functionX]; // Corrected the array here
+        }
+
+        return $resultArray;
+    }
+
 }

@@ -24,5 +24,7 @@ Route::prefix('genetic-algorithm')->group(function () {
         Route::get('/bin-to-int', [GeneticAlgorithmController::class, 'binToInt']);
         Route::get('/int-to-real', [GeneticAlgorithmController::class, 'intToReal']);
     });
+
+    Route::get('/all-conversions-table', [GeneticAlgorithmController::class, 'allConversionsTable']);
 });
 
