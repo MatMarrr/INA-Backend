@@ -20,6 +20,8 @@ Route::middleware([CheckCustomAuthKey::class])->group(function () {
 
         Route::get('/random-float/generate', [GeneticAlgorithmController::class, 'generateRandomFloat']);
 
+        Route::get('/decimal-places/force', [GeneticAlgorithmController::class, 'forceDecimalPlaces']);
+
         Route::get('/decimal-places/count', [GeneticAlgorithmController::class, 'countDecimalPlaces']);
         Route::get('/l/count', [GeneticAlgorithmController::class, 'countL']);
         Route::get('/function-value/count', [GeneticAlgorithmController::class, 'countFunctionValue']);

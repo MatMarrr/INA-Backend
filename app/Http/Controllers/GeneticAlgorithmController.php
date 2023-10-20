@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class GeneticAlgorithmController extends Controller
 {
+    public function forceDecimalPlaces(Request $request): JsonResponse
+    {
+        $number = $request->get('number');
+        $decimalPlaces = $request->get('decimalPlaces');
+
+        return response()->json([
+            'number' => $this->strictDecimalPlaces($number, $decimalPlaces)
+        ]) ;
+    }
     public function generateRandomFloat(Request $request): JsonResponse
     {
         $a = (int)$request->get('a');
@@ -98,6 +107,10 @@ class GeneticAlgorithmController extends Controller
            'conversionsTable' => $this->getAllConversionsTable($a, $b, $d, $n)
         ]);
     }
+    private function strictDecimalPlaces($number, $decimalPlaces): string
+    {
+        return sprintf("%." . $decimalPlaces . "f", $number);
+    }
     private function functionValue(float $realNumber): float
     {
         $fractionalPart = (float)($realNumber - intval($realNumber));
@@ -164,7 +177,7 @@ class GeneticAlgorithmController extends Controller
             $fourthX = $this->convertBinToInt($thirdX);
             $fifthX = $this->calculateIntToReal($fourthX, $a, $b, $l, $decimalPlaces);
             $functionX = $this->functionValue($fifthX);
-            $resultArray[] = [$i, $firstX, $secondX, $thirdX, $fourthX, $fifthX, $functionX]; // Corrected the array here
+            $resultArray[] = [$i, $this->strictDecimalPlaces($firstX), $secondX, $thirdX, $fourthX, $this->strictDecimalPlaces($fifthX), $functionX];
         }
 
         return $resultArray;
