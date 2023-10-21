@@ -140,4 +140,16 @@ class GeneticAlgorithmController extends Controller
         ]);
     }
 
+    public function fxGxPiQiTable(Request $request, GeneticAlgorithmService $service): JsonResponse
+    {
+        $requestData = $service->extractCommonParameters($request);
+        $direction = (string)$request->get('direction');
+
+        $fXTable = $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
+        $fXGxTable = $service->getFxGxTable($fXTable, $requestData['d'], $direction);
+        $fXGxPiTable = $service->getFxGxPiTable($fXGxTable);
+        return response()->json([
+            'fxGxPiQiTable' => $service->getFxGxPiQiTable($fXGxPiTable),
+        ]);
+    }
 }

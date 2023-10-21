@@ -136,4 +136,16 @@ class GeneticAlgorithmService
         return $fXGxTable;
     }
 
+    public function getFxGxPiQiTable($fXGxPiTable): array
+    {
+        $qiSum = 0;
+
+        foreach ($fXGxPiTable as &$row) {
+            $pi = $row[4];
+            $qiSum += $pi;
+            $row[] = $qiSum;
+        }
+
+        return $fXGxPiTable;
+    }
 }
