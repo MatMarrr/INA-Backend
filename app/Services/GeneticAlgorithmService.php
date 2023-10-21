@@ -121,7 +121,7 @@ class GeneticAlgorithmService
         return $fXTable;
     }
 
-    public function getFxGxPiTable($fXGxTable): array
+    public function getFxGxPiTable(array $fXGxTable): array
     {
         $sumGi = 0;
 
@@ -136,7 +136,7 @@ class GeneticAlgorithmService
         return $fXGxTable;
     }
 
-    public function getFxGxPiQiTable($fXGxPiTable): array
+    public function getFxGxPiQiTable(array $fXGxPiTable): array
     {
         $qiSum = 0;
 
@@ -149,25 +149,25 @@ class GeneticAlgorithmService
         return $fXGxPiTable;
     }
 
-    public function getFxGxPiQiRTable($fXGxPiQiTable, $d): array
+    public function getFxGxPiQiRTable(array $fXGxPiQiTable, float $d): array
     {
         $decimalPlaces = $this->calculateDecimalPlaces($d);
         foreach($fXGxPiQiTable as &$row)
         {
             $r = $this->generateRandomNumber(0,1,$decimalPlaces);
-            $row[] = $r;
+            $row[] = $this->strictDecimalPlaces($r, $decimalPlaces);
         }
         return $fXGxPiQiTable;
     }
 
-    public function getFxGxPiQiRXTable($fXGxPiQiRTable): array
+    public function getFxGxPiQiRXTable(array $fXGxPiQiRTable): array
     {
         foreach ($fXGxPiQiRTable as $index => &$row) {
             if ($index > 0) {
-                $prev_qi = $fXGxPiQiRTable[$index - 1][4];
-                $r = $row[6];
+                (float)$prev_qi = $fXGxPiQiRTable[$index - 1][4];
+                (float)$r = $row[6];
 
-                if ($prev_qi < $r && $r <= $row[4]) {
+                if ((float)$prev_qi < (float)$r && (float)$r <= (float)$row[4]) {
                     $row[] = $row[1];
                 } else {
                     $row[] = null;
