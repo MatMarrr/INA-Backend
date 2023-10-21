@@ -152,4 +152,34 @@ class GeneticAlgorithmController extends Controller
             'fxGxPiQiTable' => $service->getFxGxPiQiTable($fXGxPiTable),
         ]);
     }
+
+    public function fxGxPiQiRTable(Request $request, GeneticAlgorithmService $service): JsonResponse
+    {
+        $requestData = $service->extractCommonParameters($request);
+        $direction = (string)$request->get('direction');
+
+        $fXTable = $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
+        $fXGxTable = $service->getFxGxTable($fXTable, $requestData['d'], $direction);
+        $fXGxPiTable = $service->getFxGxPiTable($fXGxTable);
+        $fXGxPiQiTable = $service->getFxGxPiQiTable($fXGxPiTable);
+        return response()->json([
+            'fxGxPiQiRTable' => $service->getFxGxPiQiRTable($fXGxPiQiTable, $request['d']),
+        ]);
+    }
+
+    public function fxGxPiQiRFxTable(Request $request, GeneticAlgorithmService $service): JsonResponse
+    {
+        $requestData = $service->extractCommonParameters($request);
+        $direction = (string)$request->get('direction');
+
+        $fXTable = $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
+        $fXGxTable = $service->getFxGxTable($fXTable, $requestData['d'], $direction);
+        $fXGxPiTable = $service->getFxGxPiTable($fXGxTable);
+        $fXGxPiQiTable = $service->getFxGxPiQiTable($fXGxPiTable);
+        $fxGxPiQiRTable = $service->getFxGxPiQiRTable($fXGxPiQiTable, $request['d']);
+
+        return response()->json([
+            'fxGxPiQiRFxTable' => $service->getFxGxPiQiRFxTable($fxGxPiQiRTable),
+        ]);
+    }
 }

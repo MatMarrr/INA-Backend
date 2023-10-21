@@ -148,4 +148,35 @@ class GeneticAlgorithmService
 
         return $fXGxPiTable;
     }
+
+    public function getFxGxPiQiRTable($fXGxPiQiTable, $d): array
+    {
+        $decimalPlaces = $this->calculateDecimalPlaces($d);
+        foreach($fXGxPiQiTable as &$row)
+        {
+            $r = $this->generateRandomNumber(0,1,$decimalPlaces);
+            $row[] = $r;
+        }
+        return $fXGxPiQiTable;
+    }
+
+    public function getFxGxPiQiRFxTable($fXGxPiQiRTable): array
+    {
+        foreach ($fXGxPiQiRTable as $index => &$row) {
+            if ($index > 0) {
+                $prev_qi = $fXGxPiQiRTable[$index - 1][4];
+                $r = $row[6];
+
+                if ($prev_qi < $r && $r <= $row[4]) {
+                    $row[] = $row[2];
+                } else {
+                    $row[] = null;
+                }
+            } else {
+                $row[] = null;
+            }
+        }
+
+        return $fXGxPiQiRTable;
+    }
 }

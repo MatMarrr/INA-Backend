@@ -38,5 +38,7 @@ Route::middleware([CheckCustomAuthKey::class])->group(function () {
         Route::get('/fx-gx-table', [GeneticAlgorithmController::class, 'fXGxTable']);
         Route::get('/fx-gx-pi-table', [GeneticAlgorithmController::class, 'fXGxPiTable']);
         Route::get('/fx-gx-pi-qi-table', [GeneticAlgorithmController::class, 'fxGxPiQiTable']);
+        Route::get('/fx-gx-pi-qi-r-table', [GeneticAlgorithmController::class, 'fxGxPiQiRTable']);
+        Route::get('/fx-gx-pi-qi-r-fx-table', [GeneticAlgorithmController::class, 'fxGxPiQiRFxTable']);
     });
 });
