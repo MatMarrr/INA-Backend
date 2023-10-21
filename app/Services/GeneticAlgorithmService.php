@@ -160,7 +160,7 @@ class GeneticAlgorithmService
         return $fXGxPiQiTable;
     }
 
-    public function getFxGxPiQiRFxTable($fXGxPiQiRTable): array
+    public function getFxGxPiQiRXTable($fXGxPiQiRTable): array
     {
         foreach ($fXGxPiQiRTable as $index => &$row) {
             if ($index > 0) {
@@ -168,7 +168,7 @@ class GeneticAlgorithmService
                 $r = $row[6];
 
                 if ($prev_qi < $r && $r <= $row[4]) {
-                    $row[] = $row[2];
+                    $row[] = $row[1];
                 } else {
                     $row[] = null;
                 }
