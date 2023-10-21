@@ -99,7 +99,7 @@ class GeneticAlgorithmService
         $minVal = PHP_FLOAT_MAX;
 
         foreach ($fXTable as $row) {
-            $fx = $row[2];
+            $fx = (float)$row[2];
 
             if ($fx > $maxVal) {
                 $maxVal = $fx;
@@ -126,11 +126,11 @@ class GeneticAlgorithmService
         $sumGi = 0;
 
         foreach ($fXGxTable as $row) {
-            $sumGi += $row[3];
+            $sumGi += (float)$row[3];
         }
 
         foreach ($fXGxTable as &$row) {
-            $row[] = $row[3] / $sumGi;
+            $row[] = (float)$row[3] / $sumGi;
         }
 
         return $fXGxTable;
@@ -141,9 +141,9 @@ class GeneticAlgorithmService
         $qiSum = 0;
 
         foreach ($fXGxPiTable as &$row) {
-            $pi = $row[4];
+            (float)$pi = $row[4];
             $qiSum += $pi;
-            $row[] = $qiSum;
+            $row[] = (float)$qiSum;
         }
 
         return $fXGxPiTable;
