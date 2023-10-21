@@ -119,6 +119,21 @@ class GeneticAlgorithmController extends Controller
         ]);
     }
 
+    public function fXWithGxTable(Request $request): JsonResponse
+    {
+        $a = (int)$request->get('a');
+        $b = (int)$request->get('b');
+        $d = (float)$request->get('d');
+        $n = (int)$request->get('n');
+        $direction = (string)$request->get('direction');
+
+        $fXTable = $this->getFxTable($a, $b, $d, $n);
+
+        return response()->json([
+            'fxWithGxTable' => $this->getFxWithGxTable($fXTable,$d, $direction),
+        ]);
+    }
+
     private function strictDecimalPlaces($number, $decimalPlaces): string
     {
         return sprintf("%." . $decimalPlaces . "f", $number);
@@ -131,7 +146,6 @@ class GeneticAlgorithmController extends Controller
 
         return $fractionalPart * ($cosPart - $sinPart);
     }
-
     private function calculateDecimalPlaces(float $d): int
     {
         $decimalAsString = (string) $d;
@@ -143,38 +157,31 @@ class GeneticAlgorithmController extends Controller
             default => 0,
         };
     }
-
     private function generateRandomNumber(int $a, int $b, int $decimalPlaces): float
     {
         $randomFloat = $a + lcg_value() * ($b - $a);
         return round($randomFloat, $decimalPlaces);
     }
-
     private function getL(int $a, int $b, float $d): int
     {
         return (int) ceil(log((($b - $a) / $d) + 1, 2));
     }
-
     private function calculateRealToInt(float $realNumber, int $a, int $b, int $l): int
     {
         return (int) floor((1 / (float)($b - $a)) * ($realNumber - $a) * (pow(2, $l) - 1));
     }
-
     private function convertIntToBinary(int $intNumber, int $l): string
     {
         return str_pad(decbin($intNumber), $l, '0', STR_PAD_LEFT);
     }
-
     private function convertBinToInt(string $binaryNumber): int
     {
         return bindec($binaryNumber);
     }
-
     private function calculateIntToReal(int $intNumber, int $a, int $b, int $l, int $decimalPlaces): float
     {
         return round(((float)$intNumber * (float)($b - $a)) / (pow(2, $l) - 1) + $a, $decimalPlaces);
     }
-
     private function getAllConversionsTable(int $a, int $b, float $d, int $n): array
     {
         $resultArray = array();
@@ -194,7 +201,6 @@ class GeneticAlgorithmController extends Controller
 
         return $resultArray;
     }
-
     private function getFxTable(int $a, int $b, float $d, int $n): array
     {
         $resultArray = array();
@@ -208,5 +214,31 @@ class GeneticAlgorithmController extends Controller
 
         return $resultArray;
     }
+    private function getFxWithGxTable(array $fXTable, float $d, string $direction): array
+    {
+        $maxVal = -PHP_FLOAT_MAX;
+        $minVal = PHP_FLOAT_MAX;
 
+        foreach ($fXTable as $row) {
+            $fx = $row[2];
+
+            if ($fx > $maxVal) {
+                $maxVal = $fx;
+            }
+
+            if ($fx < $minVal) {
+                $minVal = $fx;
+            }
+        }
+
+        foreach ($fXTable as &$row) {
+            if ($direction === "max") {
+                $row[] = ((float)$row[1] - $minVal) + $d;
+            } else if ($direction === "min") {
+                $row[] = -1 * ((float)$row[1] - $maxVal) + $d;
+            }
+        }
+
+        return $fXTable;
+    }
 }
