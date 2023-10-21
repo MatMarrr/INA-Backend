@@ -107,6 +107,18 @@ class GeneticAlgorithmController extends Controller
            'conversionsTable' => $this->getAllConversionsTable($a, $b, $d, $n)
         ]);
     }
+    public function fXTable(Request $request): JsonResponse
+    {
+        $a = (int)$request->get('a');
+        $b = (int)$request->get('b');
+        $d = (float)$request->get('d');
+        $n = (int)$request->get('n');
+
+        return response()->json([
+            'fxTable' => $this->getFxTable($a, $b, $d, $n)
+        ]);
+    }
+
     private function strictDecimalPlaces($number, $decimalPlaces): string
     {
         return sprintf("%." . $decimalPlaces . "f", $number);
@@ -178,6 +190,20 @@ class GeneticAlgorithmController extends Controller
             $fifthX = $this->calculateIntToReal($fourthX, $a, $b, $l, $decimalPlaces);
             $functionX = $this->functionValue($fifthX);
             $resultArray[] = [$i, $this->strictDecimalPlaces($firstX, $decimalPlaces), $secondX, $thirdX, $fourthX, $this->strictDecimalPlaces($fifthX, $decimalPlaces), $functionX];
+        }
+
+        return $resultArray;
+    }
+
+    private function getFxTable(int $a, int $b, float $d, int $n): array
+    {
+        $resultArray = array();
+        $decimalPlaces = $this->calculateDecimalPlaces($d);
+
+        for($i = 1; $i <= $n; $i++){
+            $xReal = $this->generateRandomNumber($a, $b, $decimalPlaces);
+            $functionX = $this->functionValue($xReal);
+            $resultArray[] = [$i, $this->strictDecimalPlaces($xReal, $decimalPlaces), $functionX];
         }
 
         return $resultArray;
