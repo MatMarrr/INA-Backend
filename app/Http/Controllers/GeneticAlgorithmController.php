@@ -147,7 +147,7 @@ class GeneticAlgorithmController extends Controller
         $fXGxTable = $service->getFxGxTable($fXTable,$d, $direction);
 
         return response()->json([
-            'fxGxTable' => $service->getFxGxPiTable($fXGxTable),
+            'fxGxPiTable' => $service->getFxGxPiTable($fXGxTable),
         ]);
     }
 
