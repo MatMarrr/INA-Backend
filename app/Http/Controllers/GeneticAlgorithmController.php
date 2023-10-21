@@ -173,7 +173,7 @@ class GeneticAlgorithmController extends Controller
         for ($i = 1; $i <= $n; $i++) {
             $firstX = $this->generateRandomNumber($a, $b, $decimalPlaces);
             $secondX = $this->calculateRealToInt($firstX, $a, $b, $l);
-            $thirdX = $this->convertIntToBinary($secondX, $l); // Corrected the syntax error here
+            $thirdX = $this->convertIntToBinary($secondX, $l);
             $fourthX = $this->convertBinToInt($thirdX);
             $fifthX = $this->calculateIntToReal($fourthX, $a, $b, $l, $decimalPlaces);
             $functionX = $this->functionValue($fifthX);
