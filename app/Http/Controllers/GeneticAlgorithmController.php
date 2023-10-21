@@ -99,52 +99,41 @@ class GeneticAlgorithmController extends Controller
 
     public function allConversionsTable(Request $request, GeneticAlgorithmService $service): JsonResponse
     {
-        $a = (int)$request->get('a');
-        $b = (int)$request->get('b');
-        $d = (float)$request->get('d');
-        $n = (int)$request->get('n');
+        $requestData = $service->extractCommonParameters($request);
 
         return response()->json([
-           'conversionsTable' => $service->getAllConversionsTable($a, $b, $d, $n)
+           'conversionsTable' => $service->getAllConversionsTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n'])
         ]);
     }
     public function fXTable(Request $request, GeneticAlgorithmService $service): JsonResponse
     {
-        $a = (int)$request->get('a');
-        $b = (int)$request->get('b');
-        $d = (float)$request->get('d');
-        $n = (int)$request->get('n');
+        $requestData = $service->extractCommonParameters($request);
 
         return response()->json([
-            'fxTable' => $service->getFxTable($a, $b, $d, $n)
+            'fxTable' => $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n'])
         ]);
     }
 
     public function fXGxTable(Request $request, GeneticAlgorithmService $service): JsonResponse
     {
-        $a = (int)$request->get('a');
-        $b = (int)$request->get('b');
-        $d = (float)$request->get('d');
-        $n = (int)$request->get('n');
+        $requestData = $service->extractCommonParameters($request);
+
         $direction = (string)$request->get('direction');
 
-        $fXTable = $service->getFxTable($a, $b, $d, $n);
+        $fXTable = $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
 
         return response()->json([
-            'fxGxTable' => $service->getFxGxTable($fXTable,$d, $direction),
+            'fxGxTable' => $service->getFxGxTable($fXTable, $requestData['d'], $direction),
         ]);
     }
 
     public function fXGxPiTable(Request $request, GeneticAlgorithmService $service): JsonResponse
     {
-        $a = (int)$request->get('a');
-        $b = (int)$request->get('b');
-        $d = (float)$request->get('d');
-        $n = (int)$request->get('n');
+        $requestData = $service->extractCommonParameters($request);
         $direction = (string)$request->get('direction');
 
-        $fXTable = $service->getFxTable($a, $b, $d, $n);
-        $fXGxTable = $service->getFxGxTable($fXTable,$d, $direction);
+        $fXTable = $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
+        $fXGxTable = $service->getFxGxTable($fXTable, $requestData['d'], $direction);
 
         return response()->json([
             'fxGxPiTable' => $service->getFxGxPiTable($fXGxTable),

@@ -1,9 +1,18 @@
 <?php
 
 namespace App\Services;
-
+use Illuminate\Http\Request;
 class GeneticAlgorithmService
 {
+    public function extractCommonParameters(Request $request): array
+    {
+        return [
+            'a' => (int)$request->get('a'),
+            'b' => (int)$request->get('b'),
+            'd' => (float)$request->get('d'),
+            'n' => (int)$request->get('n'),
+        ];
+    }
     public function strictDecimalPlaces($number, $decimalPlaces): string
     {
         return sprintf("%." . $decimalPlaces . "f", $number);
