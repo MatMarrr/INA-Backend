@@ -84,7 +84,7 @@ class GeneticAlgorithmService
 
         return $resultArray;
     }
-    public function getFxWithGxTable(array $fXTable, float $d, string $direction): array
+    public function getFxGxTable(array $fXTable, float $d, string $direction): array
     {
         $maxVal = -PHP_FLOAT_MAX;
         $minVal = PHP_FLOAT_MAX;
@@ -111,4 +111,20 @@ class GeneticAlgorithmService
 
         return $fXTable;
     }
+
+    public function getFxGxPiTable($fXGxTable): array
+    {
+        $sumGi = 0;
+
+        foreach ($fXGxTable as $row) {
+            $sumGi += $row[3];
+        }
+
+        foreach ($fXGxTable as &$row) {
+            $row[] = $row[3] / $sumGi;
+        }
+
+        return $fXGxTable;
+    }
+
 }

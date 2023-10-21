@@ -120,7 +120,7 @@ class GeneticAlgorithmController extends Controller
         ]);
     }
 
-    public function fXWithGxTable(Request $request, GeneticAlgorithmService $service): JsonResponse
+    public function fXGxTable(Request $request, GeneticAlgorithmService $service): JsonResponse
     {
         $a = (int)$request->get('a');
         $b = (int)$request->get('b');
@@ -131,7 +131,23 @@ class GeneticAlgorithmController extends Controller
         $fXTable = $service->getFxTable($a, $b, $d, $n);
 
         return response()->json([
-            'fxWithGxTable' => $service->getFxWithGxTable($fXTable,$d, $direction),
+            'fxGxTable' => $service->getFxGxTable($fXTable,$d, $direction),
+        ]);
+    }
+
+    public function fXGxPiTable(Request $request, GeneticAlgorithmService $service): JsonResponse
+    {
+        $a = (int)$request->get('a');
+        $b = (int)$request->get('b');
+        $d = (float)$request->get('d');
+        $n = (int)$request->get('n');
+        $direction = (string)$request->get('direction');
+
+        $fXTable = $service->getFxTable($a, $b, $d, $n);
+        $fXGxTable = $service->getFxGxTable($fXTable,$d, $direction);
+
+        return response()->json([
+            'fxGxTable' => $service->getFxGxPiTable($fXGxTable),
         ]);
     }
 
