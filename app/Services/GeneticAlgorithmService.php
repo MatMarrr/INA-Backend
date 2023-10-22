@@ -112,9 +112,9 @@ class GeneticAlgorithmService
 
         foreach ($fXTable as &$row) {
             if ($direction === "max") {
-                $row[] = ((float)$row[1] - $minVal) + $d;
+                $row[] = ((float)$row[2] - $minVal) + $d;
             } else if ($direction === "min") {
-                $row[] = -1 * ((float)$row[1] - $maxVal) + $d;
+                $row[] = (-1 * ((float)$row[2] - $maxVal) )+ $d;
             }
         }
 
