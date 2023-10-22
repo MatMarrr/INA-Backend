@@ -179,4 +179,18 @@ class GeneticAlgorithmService
 
         return $fXGxPiQiRTable;
     }
+
+    public function getFxGxPiQiRXXbinTable(array $fxGxPiQiRXTable, $a, $b, $l): array
+    {
+        foreach ($fxGxPiQiRXTable as &$row){
+            if($row[7] == null){
+                $row[] = null;
+            }else{
+                $xReal = $row[7];
+                $xInt = $this->calculateRealToInt($xReal, $a, $b, $l);
+                $row[] = $this->convertIntToBinary($xInt, $l);
+            }
+        }
+        return $fxGxPiQiRXTable;
+    }
 }

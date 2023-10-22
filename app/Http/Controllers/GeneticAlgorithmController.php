@@ -148,6 +148,7 @@ class GeneticAlgorithmController extends Controller
         $fXTable = $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
         $fXGxTable = $service->getFxGxTable($fXTable, $requestData['d'], $direction);
         $fXGxPiTable = $service->getFxGxPiTable($fXGxTable);
+
         return response()->json([
             'fxGxPiQiTable' => $service->getFxGxPiQiTable($fXGxPiTable),
         ]);
@@ -162,6 +163,7 @@ class GeneticAlgorithmController extends Controller
         $fXGxTable = $service->getFxGxTable($fXTable, $requestData['d'], $direction);
         $fXGxPiTable = $service->getFxGxPiTable($fXGxTable);
         $fXGxPiQiTable = $service->getFxGxPiQiTable($fXGxPiTable);
+
         return response()->json([
             'fxGxPiQiRTable' => $service->getFxGxPiQiRTable($fXGxPiQiTable, $request['d']),
         ]);
@@ -180,6 +182,24 @@ class GeneticAlgorithmController extends Controller
 
         return response()->json([
             'fxGxPiQiRXTable' => $service->getFxGxPiQiRXTable($fxGxPiQiRTable),
+        ]);
+    }
+
+    public function fxGxPiQiRXXbinTable(Request $request, GeneticAlgorithmService $service): JsonResponse
+    {
+        $requestData = $service->extractCommonParameters($request);
+
+        $direction = (string)$request->get('direction');
+        $l = $service->getL($requestData['a'], $requestData['b'], $requestData['d']);
+
+        $fXTable = $service->getFxTable($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
+        $fXGxTable = $service->getFxGxTable($fXTable, $requestData['d'], $direction);
+        $fXGxPiTable = $service->getFxGxPiTable($fXGxTable);
+        $fXGxPiQiTable = $service->getFxGxPiQiTable($fXGxPiTable);
+        $fxGxPiQiRTable = $service->getFxGxPiQiRTable($fXGxPiQiTable, $request['d']);
+        $fxGxPiQiRXTable = $service->getFxGxPiQiRXTable($fxGxPiQiRTable);
+        return response()->json([
+            'fxGxPiQiRXXbinTable' => $service->getFxGxPiQiRXXbinTable($fxGxPiQiRXTable, $requestData['a'], $requestData['b'],  $l),
         ]);
     }
 }
