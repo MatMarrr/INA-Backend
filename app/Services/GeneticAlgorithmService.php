@@ -93,12 +93,12 @@ class GeneticAlgorithmService
 
         return $resultArray;
     }
-    public function getTableLpToGx(array $fXTable, float $d, string $direction): array
+    public function getTableLpToGx(array $tableLpToFx, float $d, string $direction): array
     {
         $maxVal = -PHP_FLOAT_MAX;
         $minVal = PHP_FLOAT_MAX;
 
-        foreach ($fXTable as $row) {
+        foreach ($tableLpToFx as $row) {
             $fx = (float)$row[2];
 
             if ($fx > $maxVal) {
@@ -110,7 +110,7 @@ class GeneticAlgorithmService
             }
         }
 
-        foreach ($fXTable as &$row) {
+        foreach ($tableLpToFx as &$row) {
             if ($direction === "max") {
                 $row[] = ((float)$row[2] - $minVal) + $d;
             } else if ($direction === "min") {
@@ -118,79 +118,81 @@ class GeneticAlgorithmService
             }
         }
 
-        return $fXTable;
+        return $tableLpToFx;
     }
 
-    public function getTableLpToPi(array $fXGxTable): array
+    public function getTableLpToPi(array $tableLpToGx): array
     {
         $sumGi = 0;
 
-        foreach ($fXGxTable as $row) {
+        foreach ($tableLpToGx as $row) {
             $sumGi += (float)$row[3];
         }
 
-        foreach ($fXGxTable as &$row) {
+        foreach ($tableLpToGx as &$row) {
             $row[] = (float)$row[3] / $sumGi;
         }
 
-        return $fXGxTable;
+        return $tableLpToGx;
     }
 
-    public function getTableLpToQi(array $fXGxPiTable): array
+    public function getTableLpToQi(array $tableLpToPi): array
     {
         $qiSum = 0;
 
-        foreach ($fXGxPiTable as &$row) {
+        foreach ($tableLpToPi as &$row) {
             (float)$pi = $row[4];
             $qiSum += $pi;
             $row[] = (float)$qiSum;
         }
 
-        return $fXGxPiTable;
+        return $tableLpToPi;
     }
 
-    public function getTableLpToR(array $fXGxPiQiTable, float $d): array
+    public function getTableLpToR(array $tableLpToQi, float $d): array
     {
         $decimalPlaces = $this->calculateDecimalPlaces($d);
-        foreach($fXGxPiQiTable as &$row)
+        foreach($tableLpToQi as &$row)
         {
             $r = $this->generateRandomNumber(0,1,$decimalPlaces);
             $row[] = $this->strictDecimalPlaces($r, $decimalPlaces);
         }
-        return $fXGxPiQiTable;
+        return $tableLpToQi;
     }
 
-    public function getTableLpToX(array $fXGxPiQiRTable): array
+    public function getTableLpToX(array $tableLpToR): array
     {
-        foreach ($fXGxPiQiRTable as $index => &$row) {
+        foreach ($tableLpToR as $index => &$row) {
             if ($index > 0) {
-                (float)$prev_qi = $fXGxPiQiRTable[$index - 1][5];
-                (float)$r = $row[6];
+                (float)$prev_qi = $tableLpToR[$index - 1][5];
+            } else {
+                (float)$prev_qi = 0;
+            }
 
-                if ((float)$prev_qi < (float)$r && (float)$r <= (float)$row[5]) {
-                    $row[] = $row[1];
-                } else {
-                    $row[] = null;
-                }
+            (float)$r = $row[6];
+
+            if ((float)$prev_qi < (float)$r && (float)$r <= (float)$row[5]) {
+                $row[] = $row[1];
             } else {
                 $row[] = null;
             }
         }
 
-        return $fXGxPiQiRTable;
+        return $tableLpToR;
     }
 
-    public function getTableLpToXbin(array $fxGxPiQiRXTable, $a, $b, $l): array
+    public function getTableLpToXbin(array $tableLpToXreal, $a, $b, $l): array
     {
-        foreach ($fxGxPiQiRXTable as &$row){
+        foreach ($tableLpToXreal as &$row){
             if($row[7] == null){
                 $row[] = null;
             }else{
                 $xReal = $row[7];
                 $xInt = $this->calculateRealToInt($xReal, $a, $b, $l);
+
                 $row[] = $this->convertIntToBinary($xInt, $l);
             }
         }
-        return $fxGxPiQiRXTable;
+        return $tableLpToXreal;
     }
 }

@@ -198,6 +198,7 @@ class GeneticAlgorithmController extends Controller
         $tableLpToQi = $service->getTableLpToQi($tableLpToPi);
         $tableLpToR = $service->getTableLpToR($tableLpToQi, $request['d']);
         $tableLpToXreal = $service->getTableLpToX($tableLpToR);
+
         return response()->json([
             'tableLpToXbin' => $service->getTableLpToXbin($tableLpToXreal, $requestData['a'], $requestData['b'],  $l),
         ]);
