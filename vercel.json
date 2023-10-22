@@ -12,7 +12,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "",
+        "APP_URL": "ina-backend-g9lx2p09x-matmars-projects.vercel.app",
         "APP_KEY": "base64:OYzC+HErFcDP6lvlqsNVZekZ+3BjvCahPML7//c6KhE=",
 
         "CLOUDINARY_URL": "",
