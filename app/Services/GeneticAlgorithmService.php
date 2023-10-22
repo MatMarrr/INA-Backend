@@ -80,7 +80,7 @@ class GeneticAlgorithmService
 
         return $resultArray;
     }
-    public function getFxTable(int $a, int $b, float $d, int $n): array
+    public function getTableLpToFx(int $a, int $b, float $d, int $n): array
     {
         $resultArray = array();
         $decimalPlaces = $this->calculateDecimalPlaces($d);
@@ -93,7 +93,7 @@ class GeneticAlgorithmService
 
         return $resultArray;
     }
-    public function getFxGxTable(array $fXTable, float $d, string $direction): array
+    public function getTableLpToGx(array $fXTable, float $d, string $direction): array
     {
         $maxVal = -PHP_FLOAT_MAX;
         $minVal = PHP_FLOAT_MAX;
@@ -121,7 +121,7 @@ class GeneticAlgorithmService
         return $fXTable;
     }
 
-    public function getFxGxPiTable(array $fXGxTable): array
+    public function getTableLpToPi(array $fXGxTable): array
     {
         $sumGi = 0;
 
@@ -136,7 +136,7 @@ class GeneticAlgorithmService
         return $fXGxTable;
     }
 
-    public function getFxGxPiQiTable(array $fXGxPiTable): array
+    public function getTableLpToQi(array $fXGxPiTable): array
     {
         $qiSum = 0;
 
@@ -149,7 +149,7 @@ class GeneticAlgorithmService
         return $fXGxPiTable;
     }
 
-    public function getFxGxPiQiRTable(array $fXGxPiQiTable, float $d): array
+    public function getTableLpToR(array $fXGxPiQiTable, float $d): array
     {
         $decimalPlaces = $this->calculateDecimalPlaces($d);
         foreach($fXGxPiQiTable as &$row)
@@ -160,14 +160,14 @@ class GeneticAlgorithmService
         return $fXGxPiQiTable;
     }
 
-    public function getFxGxPiQiRXTable(array $fXGxPiQiRTable): array
+    public function getTableLpToX(array $fXGxPiQiRTable): array
     {
         foreach ($fXGxPiQiRTable as $index => &$row) {
             if ($index > 0) {
-                (float)$prev_qi = $fXGxPiQiRTable[$index - 1][4];
+                (float)$prev_qi = $fXGxPiQiRTable[$index - 1][5];
                 (float)$r = $row[6];
 
-                if ((float)$prev_qi < (float)$r && (float)$r <= (float)$row[4]) {
+                if ((float)$prev_qi < (float)$r && (float)$r <= (float)$row[5]) {
                     $row[] = $row[1];
                 } else {
                     $row[] = null;
@@ -180,7 +180,7 @@ class GeneticAlgorithmService
         return $fXGxPiQiRTable;
     }
 
-    public function getFxGxPiQiRXXbinTable(array $fxGxPiQiRXTable, $a, $b, $l): array
+    public function getTableLpToXbin(array $fxGxPiQiRXTable, $a, $b, $l): array
     {
         foreach ($fxGxPiQiRXTable as &$row){
             if($row[7] == null){

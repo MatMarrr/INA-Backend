@@ -34,12 +34,12 @@ Route::middleware([CheckCustomAuthKey::class])->group(function () {
         });
 
         Route::get('/all-conversions-table', [GeneticAlgorithmController::class, 'allConversionsTable']);
-        Route::get('/fx-table', [GeneticAlgorithmController::class, 'fXTable']);
-        Route::get('/fx-gx-table', [GeneticAlgorithmController::class, 'fXGxTable']);
-        Route::get('/fx-gx-pi-table', [GeneticAlgorithmController::class, 'fXGxPiTable']);
-        Route::get('/fx-gx-pi-qi-table', [GeneticAlgorithmController::class, 'fxGxPiQiTable']);
-        Route::get('/fx-gx-pi-qi-r-table', [GeneticAlgorithmController::class, 'fxGxPiQiRTable']);
-        Route::get('/fx-gx-pi-qi-r-x-table', [GeneticAlgorithmController::class, 'fxGxPiQiRXTable']);
-        Route::get('/fx-gx-pi-qi-r-x-xbin-table', [GeneticAlgorithmController::class, 'fxGxPiQiRXXbinTable']);
+        Route::get('/fx-table', [GeneticAlgorithmController::class, 'tableLpToFx']);
+        Route::get('/fx-gx-table', [GeneticAlgorithmController::class, 'tableLpToGx']);
+        Route::get('/fx-gx-pi-table', [GeneticAlgorithmController::class, 'tableLpToPi']);
+        Route::get('/fx-gx-pi-qi-table', [GeneticAlgorithmController::class, 'tableLpToQi']);
+        Route::get('/fx-gx-pi-qi-r-table', [GeneticAlgorithmController::class, 'tableLpToR']);
+        Route::get('/fx-gx-pi-qi-r-x-table', [GeneticAlgorithmController::class, 'tableLpToXreal']);
+        Route::get('/fx-gx-pi-qi-r-x-xbin-table', [GeneticAlgorithmController::class, 'tableLpToXbin']);
     });
 });
