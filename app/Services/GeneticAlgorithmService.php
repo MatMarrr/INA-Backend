@@ -41,6 +41,17 @@ class GeneticAlgorithmService
         $randomFloat = $a + lcg_value() * ($b - $a);
         return round($randomFloat, $decimalPlaces);
     }
+    public function generateR(int $decimalPlaces): float
+    {
+        $minValue = pow(10, -$decimalPlaces);
+        $maxValue = 1.0 - $minValue;
+
+        do {
+            $randomFloat = lcg_value();
+        } while ($randomFloat <= $minValue || $randomFloat >= $maxValue);
+
+        return round($randomFloat, $decimalPlaces);
+    }
     public function getL(int $a, int $b, float $d): int
     {
         return (int) ceil(log((($b - $a) / $d) + 1, 2));
@@ -142,6 +153,7 @@ class GeneticAlgorithmService
 
         foreach ($tableLpToPi as &$row) {
             (float)$pi = $row[4];
+
             $qiSum += $pi;
             $row[] = (float)$qiSum;
         }
@@ -154,7 +166,7 @@ class GeneticAlgorithmService
         $decimalPlaces = $this->calculateDecimalPlaces($d);
         foreach($tableLpToQi as &$row)
         {
-            $r = $this->generateRandomNumber(0,1,$decimalPlaces);
+            $r = $this->generateR($decimalPlaces);
             $row[] = $this->strictDecimalPlaces($r, $decimalPlaces);
         }
         return $tableLpToQi;
@@ -162,20 +174,31 @@ class GeneticAlgorithmService
 
     public function getTableLpToX(array $tableLpToR): array
     {
-        foreach ($tableLpToR as $index => &$row) {
-            if ($index > 0) {
-                (float)$prev_qi = $tableLpToR[$index - 1][5];
-            } else {
-                (float)$prev_qi = 0;
+
+        foreach($tableLpToR as &$row)
+        {
+            $r = $row[6];
+            $choosedParent = false;
+            for($i = 0; $i < count($tableLpToR); $i++){
+
+                $xReal = $tableLpToR[$i][1];
+                $q = $tableLpToR[$i][5];
+
+                if($i == 0){
+                    $prevQ = 0;
+                }else{
+                    $prevQ = $tableLpToR[$i-1][5];
+                }
+
+                if($prevQ < $r && $r <= $q){
+                    $row[] = $xReal;
+                    $choosedParent = true;
+                }
             }
-
-            (float)$r = $row[6];
-
-            if ((float)$prev_qi < (float)$r && (float)$r <= (float)$row[5]) {
-                $row[] = $row[1];
-            } else {
+            if(!$choosedParent){
                 $row[] = null;
             }
+
         }
 
         return $tableLpToR;
@@ -184,15 +207,34 @@ class GeneticAlgorithmService
     public function getTableLpToXbin(array $tableLpToXreal, $a, $b, $l): array
     {
         foreach ($tableLpToXreal as &$row){
-            if($row[7] == null){
+
+            $xReal = (float)$row[7];
+
+            if($xReal == null){
                 $row[] = null;
             }else{
-                $xReal = $row[7];
                 $xInt = $this->calculateRealToInt($xReal, $a, $b, $l);
-
                 $row[] = $this->convertIntToBinary($xInt, $l);
             }
         }
+        return $tableLpToXreal;
+    }
+
+    public function getTableLpToParents(array $tableLpToXreal, $pk): array
+    {
+        // pk <= r
+        foreach ($tableLpToXreal as &$row){
+
+            $r = $row[6];
+            $xBin = $row[8];
+
+            if($pk <= $r){
+                $row[] = $xBin;
+            }else{
+                $row[] = null;
+            }
+        }
+
         return $tableLpToXreal;
     }
 }
