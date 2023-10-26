@@ -268,8 +268,14 @@ class GeneticAlgorithmService
         });
 
         if (empty($parents)) {
+
+            foreach($tableLpToParents as &$row){
+                $row[] = null;
+            }
+
             return array(
                 'tableLpToPk' => $tableLpToParents,
+                'pairs' => array(),
             );
         }
 
@@ -353,7 +359,6 @@ class GeneticAlgorithmService
                 $row[] = $row[8];
             }
         }
-
         return $tableLpToPc;
     }
 
