@@ -36,14 +36,17 @@ class GeneticAlgorithmService
             default => 0,
         };
     }
-    public function generateRandomNumber(int $a, int $b, int $decimalPlaces): float
+    public function generateRandomNumber(float $a, float $b, int $decimalPlaces): float
     {
-        $randomFloat = $a + lcg_value() * ($b - $a);
+        $randomInt = mt_rand(0, pow(10, $decimalPlaces));
+        $scaledValue = $randomInt / pow(10, $decimalPlaces);
+        $randomFloat = $a + $scaledValue * ($b - $a);
+
         return round($randomFloat, $decimalPlaces);
     }
     public function generateR(): float
     {
-        return lcg_value();
+        return mt_rand(0, mt_getrandmax()) / mt_getrandmax();
     }
     public function getL(int $a, int $b, float $d): int
     {
