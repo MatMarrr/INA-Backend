@@ -217,19 +217,23 @@ class GeneticAlgorithmService
 
     public function getTableLpToParents(array $tableLpToXreal, $pk): array
     {
-        // pk <= r
-        foreach ($tableLpToXreal as &$row){
+        $parentsIndexes = array();
+        do {
 
-            $r = $row[6];
-            $xBin = $row[8];
+            foreach ($tableLpToXreal as $index => &$row) {
 
-            if($pk <= $r){
-                $row[] = $xBin;
-            }else{
-                $row[] = null;
+                $r = $row[6];
+                $xBin = $row[8];
+
+                if ($pk <= $r && !in_array($index, $parentsIndexes)) {
+                    $row[] = $xBin;
+                    $parentsIndexes[] = $index;
+                } else {
+                    $row[] = null;
+                }
             }
-        }
 
-        return $tableLpToXreal;
+        }while(count($parentsIndexes) == 1);
+            return $tableLpToXreal;
     }
 }
