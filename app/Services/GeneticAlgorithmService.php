@@ -356,4 +356,37 @@ class GeneticAlgorithmService
 
         return $tableLpToPk;
     }
+
+    public function mutateBin(string $xBin, float $pm): array
+    {
+
+        $xbinTab = str_split($xBin);
+        $mutatedBits = array();
+
+        foreach ($xbinTab as $index => &$bit) {
+            $r = (float)$this->generateR();
+            if ($r <= $pm) {
+                $bit = $bit == '0' ? '1' : '0';
+                $mutatedBits[] = $index;
+            }
+        }
+
+        return array(
+            "xBin" => implode("", $xbinTab),
+            "mutatedBits" => count($mutatedBits) !== 0 ? implode(",", $mutatedBits) : null,
+        );
+    }
+
+    public function getTableLpToMutatedXbin(array $tableLpToCross, float $pm): array
+    {
+        foreach($tableLpToCross as &$row){
+            $xBin = $row[11];
+            $mutatedXBinData = $this->mutateBin($xBin, $pm);
+            $row[] = $mutatedXBinData['mutatedBits'];
+            $row[] = $mutatedXBinData['xBin'];
+        }
+
+        return $tableLpToCross;
+    }
+
 }
