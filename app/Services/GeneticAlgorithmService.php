@@ -397,7 +397,7 @@ class GeneticAlgorithmService
             $xReal = $this->calculateIntToReal($xInt, $a, $b, $l, $decimalPlaces);
             $fx = $this->functionValue($xReal);
 
-            $row[] = $xReal;
+            $row[] = $this->strictDecimalPlaces($xReal, $decimalPlaces);
             $row[] = $fx;
         }
         return $tableLpToMutatedXbin;
