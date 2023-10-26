@@ -41,16 +41,9 @@ class GeneticAlgorithmService
         $randomFloat = $a + lcg_value() * ($b - $a);
         return round($randomFloat, $decimalPlaces);
     }
-    public function generateR(int $decimalPlaces): float
+    public function generateR(): float
     {
-        $minValue = pow(10, -$decimalPlaces);
-        $maxValue = 1.0 - $minValue;
-
-        do {
-            $randomFloat = lcg_value();
-        } while ($randomFloat <= $minValue || $randomFloat >= $maxValue);
-
-        return round($randomFloat, $decimalPlaces);
+        return lcg_value();
     }
     public function getL(int $a, int $b, float $d): int
     {
@@ -161,13 +154,12 @@ class GeneticAlgorithmService
         return $tableLpToPi;
     }
 
-    public function getTableLpToR(array $tableLpToQi, float $d): array
+    public function getTableLpToR(array $tableLpToQi): array
     {
-        $decimalPlaces = $this->calculateDecimalPlaces($d);
         foreach($tableLpToQi as &$row)
         {
-            $r = $this->generateR($decimalPlaces);
-            $row[] = $this->strictDecimalPlaces($r, $decimalPlaces);
+            $r = $this->generateR();
+            $row[] = $r;
         }
         return $tableLpToQi;
     }
@@ -178,7 +170,7 @@ class GeneticAlgorithmService
         foreach($tableLpToR as &$row)
         {
             $r = $row[6];
-            $choosedParent = false;
+            $chosenX = false;
             for($i = 0; $i < count($tableLpToR); $i++){
 
                 $xReal = $tableLpToR[$i][1];
@@ -192,10 +184,10 @@ class GeneticAlgorithmService
 
                 if($prevQ < $r && $r <= $q){
                     $row[] = $xReal;
-                    $choosedParent = true;
+                    $chosenX = true;
                 }
             }
-            if(!$choosedParent){
+            if(!$chosenX){
                 $row[] = null;
             }
 

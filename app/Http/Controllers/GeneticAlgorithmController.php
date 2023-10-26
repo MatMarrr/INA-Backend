@@ -165,7 +165,7 @@ class GeneticAlgorithmController extends Controller
         $tableLpToQi = $service->getTableLpToQi($tableLpToPi);
 
         return response()->json([
-            'tableLpToR' => $service->getTableLpToR($tableLpToQi, $request['d']),
+            'tableLpToR' => $service->getTableLpToR($tableLpToQi),
         ]);
     }
 
@@ -178,7 +178,7 @@ class GeneticAlgorithmController extends Controller
         $tableLpToGx = $service->getTableLpToGx($tableLpToFx, $requestData['d'], $direction);
         $tableLpToPi = $service->getTableLpToPi($tableLpToGx);
         $tableLpToQi = $service->getTableLpToQi($tableLpToPi);
-        $tableLpToR = $service->getTableLpToR($tableLpToQi, $request['d']);
+        $tableLpToR = $service->getTableLpToR($tableLpToQi);
 
         return response()->json([
             'tableLpToXreal' => $service->getTableLpToX($tableLpToR),
@@ -196,7 +196,7 @@ class GeneticAlgorithmController extends Controller
         $tableLpToGx = $service->getTableLpToGx($tableLpToFx, $requestData['d'], $direction);
         $tableLpToPi = $service->getTableLpToPi($tableLpToGx);
         $tableLpToQi = $service->getTableLpToQi($tableLpToPi);
-        $tableLpToR = $service->getTableLpToR($tableLpToQi, $request['d']);
+        $tableLpToR = $service->getTableLpToR($tableLpToQi);
         $tableLpToXreal = $service->getTableLpToX($tableLpToR);
 
         return response()->json([
@@ -217,7 +217,7 @@ class GeneticAlgorithmController extends Controller
         $tableLpToGx = $service->getTableLpToGx($tableLpToFx, $requestData['d'], $direction);
         $tableLpToPi = $service->getTableLpToPi($tableLpToGx);
         $tableLpToQi = $service->getTableLpToQi($tableLpToPi);
-        $tableLpToR = $service->getTableLpToR($tableLpToQi, $request['d']);
+        $tableLpToR = $service->getTableLpToR($tableLpToQi);
         $tableLpToXreal = $service->getTableLpToX($tableLpToR);
         $tableLpToXbin = $service->getTableLpToXbin($tableLpToXreal, $requestData['a'], $requestData['b'],  $l);
 
