@@ -244,8 +244,39 @@ class GeneticAlgorithmController extends Controller
         $tableLpToXbin = $service->getTableLpToXbin($tableLpToXreal, $requestData['a'], $requestData['b'],  $l);
         $tableLpToParents = $service->getTableLpToParents($tableLpToXbin, $pk);
 
+        $tableLpToPkData = $service->getTableLpToPc($tableLpToParents, $l);
+        $tableLpToPk = $tableLpToPkData['tableLpToPk'];
+        $pairs = $tableLpToPkData['pairs'];
+
         return response()->json([
-            'tableLpToPk' => $service->getTableLpToPc($tableLpToParents, $l),
+            'tableLpToPk' => $tableLpToPk,
+        ]);
+    }
+
+    public function tableLpToCross(Request $request, GeneticAlgorithmService $service): JsonResponse
+    {
+        $requestData = $service->extractCommonParameters($request);
+
+        $direction = (string)$request->get('direction');
+        $pk = (float)$request->get('pk');
+
+        $l = $service->getL($requestData['a'], $requestData['b'], $requestData['d']);
+
+        $tableLpToFx = $service->getTableLpToFx($requestData['a'], $requestData['b'], $requestData['d'], $requestData['n']);
+        $tableLpToGx = $service->getTableLpToGx($tableLpToFx, $requestData['d'], $direction);
+        $tableLpToPi = $service->getTableLpToPi($tableLpToGx);
+        $tableLpToQi = $service->getTableLpToQi($tableLpToPi);
+        $tableLpToR = $service->getTableLpToR($tableLpToQi);
+        $tableLpToXreal = $service->getTableLpToX($tableLpToR);
+        $tableLpToXbin = $service->getTableLpToXbin($tableLpToXreal, $requestData['a'], $requestData['b'],  $l);
+        $tableLpToParents = $service->getTableLpToParents($tableLpToXbin, $pk);
+
+        $tableLpToPkData = $service->getTableLpToPc($tableLpToParents, $l);
+        $tableLpToPk = $tableLpToPkData['tableLpToPk'];
+        $pairs = $tableLpToPkData['pairs'];
+
+        return response()->json([
+            'tableLpToCross' => $service->getTableLpToCross($tableLpToPk, $pairs),
         ]);
     }
 }
