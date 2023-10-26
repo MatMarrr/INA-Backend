@@ -236,4 +236,15 @@ class GeneticAlgorithmService
         }while(count($parentsIndexes) == 1);
             return $tableLpToXreal;
     }
+
+    public function getTableLpToPc(array $tableLpToParents, int $l): array
+    {
+        foreach($tableLpToParents as &$row){
+
+            $pk = rand(0, $l-2);
+            $row[] = $pk;
+        }
+
+        return $tableLpToParents;
+    }
 }
