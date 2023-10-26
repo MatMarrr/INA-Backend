@@ -45,5 +45,6 @@ Route::middleware([CheckCustomAuthKey::class])->group(function () {
         Route::get('/fx-gx-pi-qi-r-x-xbin-parents-pk-table', [GeneticAlgorithmController::class, 'tableLpToPc']);
         Route::get('/fx-gx-pi-qi-r-x-xbin-parents-pk-crossed-table', [GeneticAlgorithmController::class, 'tableLpToCross']);
         Route::get('/fx-gx-pi-qi-r-x-xbin-parents-pk-crossed-mutatedBits-mutatedXbin-table', [GeneticAlgorithmController::class, 'tableLpToMutatedXbin']);
+        Route::get('/fx-gx-pi-qi-r-x-xbin-parents-pk-crossed-mutatedBits-mutatedXbin-xreal-fx-table', [GeneticAlgorithmController::class, 'tableLpToLastFx']);
     });
 });

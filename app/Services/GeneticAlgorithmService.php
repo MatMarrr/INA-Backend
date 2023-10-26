@@ -389,4 +389,17 @@ class GeneticAlgorithmService
         return $tableLpToCross;
     }
 
+    public function getTableLpToLastFx(array $tableLpToMutatedXbin, int $a, int $b, int $l, int $decimalPlaces): array
+    {
+        foreach($tableLpToMutatedXbin as &$row){
+            $xBin = $row[13];
+            $xInt = $this->convertBinToInt($xBin);
+            $xReal = $this->calculateIntToReal($xInt, $a, $b, $l, $decimalPlaces);
+            $fx = $this->functionValue($xReal);
+
+            $row[] = $xReal;
+            $row[] = $fx;
+        }
+        return $tableLpToMutatedXbin;
+    }
 }
