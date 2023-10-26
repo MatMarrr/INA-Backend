@@ -334,27 +334,27 @@ class GeneticAlgorithmService
         );
     }
 
-    public function getTableLpToCross(array $tableLpToPk, array $pairs): array
+    public function getTableLpToCross(array $tableLpToPc, array $pairs): array
     {
         foreach ($pairs as $pair) {
             $crossedData = $this->crossParents($pair);
 
-            if (!isset($tableLpToPk[$crossedData['d1Index']][11])) {
-                $tableLpToPk[$crossedData['d1Index']][] = $crossedData['d1'];
+            if (!isset($tableLpToPc[$crossedData['d1Index']][11])) {
+                $tableLpToPc[$crossedData['d1Index']][] = $crossedData['d1'];
             }
 
-            if (!isset($tableLpToPk[$crossedData['d2Index']][11])) {
-                $tableLpToPk[$crossedData['d2Index']][] = $crossedData['d2'];
+            if (!isset($tableLpToPc[$crossedData['d2Index']][11])) {
+                $tableLpToPc[$crossedData['d2Index']][] = $crossedData['d2'];
             }
         }
 
-        foreach ($tableLpToPk as &$row) {
+        foreach ($tableLpToPc as &$row) {
             if (!isset($row[11])) {
                 $row[] = $row[8];
             }
         }
 
-        return $tableLpToPk;
+        return $tableLpToPc;
     }
 
     public function mutateBin(string $xBin, float $pm): array
