@@ -15,7 +15,7 @@ class MutateBinTest extends TestCase
             ->getMock();
 
         $service->method('generateR')
-            ->willReturn(0.5); // zwraca wartość mniejszą od 1
+            ->willReturn(0.5);
 
         $xBin = "010101";
         $pm = 1;
