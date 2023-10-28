@@ -288,23 +288,23 @@ class GeneticAlgorithmService
 
             $parent1 = $parents[$indexParent1];
             $parent2 = $parents[$indexParent2];
-            $pk = rand(0, $l - 2);
+            $pc = rand(0, $l - 2);
 
             $parentsData[] = array(
                 'parent_1' => array('index' => $indexParent1, 'value' => $parent1),
                 'parent_2' => array('index' => $indexParent2, 'value' => $parent2),
-                'pk' => $pk,
+                'pc' => $pc,
             );
         }
 
         foreach ($parentsData as &$parentData) {
-            $pk = $parentData['pk'];
+            $pc = $parentData['pc'];
             if (!isset($tableLpToParents[$parentData['parent_1']['index']][10])) {
-                $tableLpToParents[$parentData['parent_1']['index']][] = $pk;
+                $tableLpToParents[$parentData['parent_1']['index']][] = $pc;
             }
 
             if (!isset($tableLpToParents[$parentData['parent_2']['index']][10])) {
-                $tableLpToParents[$parentData['parent_2']['index']][] = $pk;
+                $tableLpToParents[$parentData['parent_2']['index']][] = $pc;
             }
         }
 
@@ -322,12 +322,12 @@ class GeneticAlgorithmService
 
     public function crossParents(array $parents): array
     {
-        $pk = $parents['pk'];
-        $firstParentHead = substr($parents['parent_1']['value'], 0, $pk + 1);
-        $firstParentTail = substr($parents['parent_1']['value'], $pk + 1);
+        $pc = $parents['pc'];
+        $firstParentHead = substr($parents['parent_1']['value'], 0, $pc + 1);
+        $firstParentTail = substr($parents['parent_1']['value'], $pc + 1);
 
-        $secondParentHead = substr($parents['parent_2']['value'], 0, $pk + 1);
-        $secondParentTail = substr($parents['parent_2']['value'], $pk + 1);
+        $secondParentHead = substr($parents['parent_2']['value'], 0, $pc + 1);
+        $secondParentTail = substr($parents['parent_2']['value'], $pc + 1);
 
         $d1 = $firstParentHead . $secondParentTail;
         $d2 = $secondParentHead . $firstParentTail;
