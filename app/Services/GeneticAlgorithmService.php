@@ -228,12 +228,12 @@ class GeneticAlgorithmService
         return $tableLpToXreal;
     }
 
-    public function getTableLpToParents(array $tableLpToXreal, $pk): array
+    public function getTableLpToParents(array $tableLpToXbin, $pk): array
     {
         $parentsIndexes = array();
         $emptyPatentIndexes = array();
 
-        foreach ($tableLpToXreal as $index => &$row) {
+        foreach ($tableLpToXbin as $index => &$row) {
 
             $r = $row[6];
             $xBin = $row[8];
@@ -252,10 +252,10 @@ class GeneticAlgorithmService
         if (count($parentsIndexes) == 1) {
             $randomParentTabIndex = array_rand($emptyPatentIndexes);
             $randomParentTabIndexValue = $emptyPatentIndexes[$randomParentTabIndex];
-            $tableLpToXreal[$randomParentTabIndexValue][9] = $tableLpToXreal[$randomParentTabIndexValue][8];
+            $tableLpToXbin[$randomParentTabIndexValue][9] = $tableLpToXbin[$randomParentTabIndexValue][8];
         }
 
-        return $tableLpToXreal;
+        return $tableLpToXbin;
     }
 
     public function getTableLpToPc(array $tableLpToParents, int $l): array
