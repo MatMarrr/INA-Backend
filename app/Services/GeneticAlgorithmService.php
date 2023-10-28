@@ -235,10 +235,10 @@ class GeneticAlgorithmService
 
         foreach ($tableLpToXbin as $index => &$row) {
 
-            $r = $row[6];
+            $r = $this->generateR();
             $xBin = $row[8];
 
-            if ($pk <= $r && !in_array($index, $parentsIndexes)) {
+            if ($r <= $pk && !in_array($index, $parentsIndexes)) {
                 $row[] = $xBin;
                 $parentsIndexes[] = $index;
 
