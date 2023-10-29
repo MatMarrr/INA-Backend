@@ -56,6 +56,11 @@ class GeneticAlgorithmService
         return mt_rand(0, mt_getrandmax()) / mt_getrandmax();
     }
 
+    public function generatePc($l)
+    {
+        return rand(0, $l - 2);
+    }
+
     public function getL(int $a, int $b, float $d): int
     {
         return (int)ceil(log((($b - $a) / $d) + 1, 2));
@@ -288,7 +293,7 @@ class GeneticAlgorithmService
 
             $parent1 = $parents[$indexParent1];
             $parent2 = $parents[$indexParent2];
-            $pc = rand(0, $l - 2);
+            $pc = $this->generatePc($l);
 
             $parentsData[] = array(
                 'parent_1' => array('index' => $indexParent1, 'value' => $parent1),
