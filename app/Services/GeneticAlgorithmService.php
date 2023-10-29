@@ -56,9 +56,14 @@ class GeneticAlgorithmService
         return mt_rand(0, mt_getrandmax()) / mt_getrandmax();
     }
 
-    public function generatePc($l)
+    public function generatePc($l): int
     {
         return rand(0, $l - 2);
+    }
+
+    public function getRandomIndex($array): int
+    {
+        return array_rand($array);
     }
 
     public function getL(int $a, int $b, float $d): int
@@ -255,7 +260,7 @@ class GeneticAlgorithmService
         }
 
         if (count($parentsIndexes) == 1) {
-            $randomParentTabIndex = array_rand($emptyPatentIndexes);
+            $randomParentTabIndex = $this->getRandomIndex($emptyPatentIndexes);
             $randomParentTabIndexValue = $emptyPatentIndexes[$randomParentTabIndex];
             $tableLpToXbin[$randomParentTabIndexValue][9] = $tableLpToXbin[$randomParentTabIndexValue][8];
         }
