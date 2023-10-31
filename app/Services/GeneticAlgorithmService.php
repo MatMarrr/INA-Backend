@@ -240,6 +240,11 @@ class GeneticAlgorithmService
 
     public function getTableLpToParents(array $tableLpToXbin, $pk): array
     {
+        if(count($tableLpToXbin) == 1){
+            $tableLpToXbin[0][] = null;
+            return $tableLpToXbin;
+        }
+
         $parentsIndexes = array();
         $emptyPatentIndexes = array();
 
